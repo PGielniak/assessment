@@ -45,7 +45,7 @@ jobs:
 
   deploy-dev:
     needs: build
-    uses: ./.github/workflows/deployment-template.yml
+    uses: ./.github/workflows/deployment-template.yaml
     with:
       environment: dev
       image_tag: ${{ needs.build.outputs.image-tag }}
@@ -55,7 +55,7 @@ jobs:
 
   deploy-staging:
     needs: [build, deploy-dev]
-    uses: ./.github/workflows/deployment-template.yml
+    uses: ./.github/workflows/deployment-template.yaml
     with:
       environment: staging
       image_tag: ${{ needs.build.outputs.image-tag }}
@@ -65,7 +65,7 @@ jobs:
 
   deploy-prod:
     needs: [build, deploy-staging]
-    uses: ./.github/workflows/deployment-template.yml
+    uses: ./.github/workflows/deployment-template.yaml
     with:
       environment: prod
       image_tag: ${{ needs.build.outputs.image-tag }}
