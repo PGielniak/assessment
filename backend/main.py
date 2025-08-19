@@ -1,3 +1,4 @@
+
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.responses import Response
@@ -11,13 +12,21 @@ app = FastAPI()
 
 load_dotenv()
 
+def _trim_db_url(url: str) -> str:
+    """
+    Removes the database name from the end of a DB URL (after the last '/').
+    Example: 'postgresql+asyncpg://user:pass@host:5432/dbname' -> 'postgresql+asyncpg://user:pass@host:5432'
+    """
+    return url.rsplit('/', 1)[0] if '/' in url else url
+
 @app.on_event("startup")
 async def startup_event():
     try:
         async for db in get_db():
             data_service = get_data_service()
             db_url = os.getenv("DATABASE_URL")
-            await initialize_db(db_url)
+            trimmed_db_url = _trim_db_url(db_url)
+            await initialize_db(trimmed_db_url)
             break
         print("Database initialized successfully.")
     except Exception as e:
