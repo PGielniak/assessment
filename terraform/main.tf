@@ -2,30 +2,25 @@ locals {
   # Generate resource group name if not provided
   resource_group_name = var.resource_group_name != "" ? var.resource_group_name : "${var.project_name}-${var.environment}"
   
-  # Common tags
   common_tags = merge({
     Environment = var.environment
   }, var.tags)
   
-  # Resource naming convention
   name_prefix = "${var.project_name}-${var.environment}"
 }
 
-# Generate random password for PostgreSQL if not provided
 resource "random_password" "postgresql_admin_password" {
   count   = var.postgresql_admin_password == null ? 1 : 0
   length  = 20
   special = true
 }
 
-# Resource Group
 resource "azurerm_resource_group" "main" {
   name     = local.resource_group_name
   location = var.location
   tags     = local.common_tags
 }
 
-# Networking
 module "networking" {
   source = "./modules/networking"
   
@@ -37,7 +32,6 @@ module "networking" {
   tags                  = local.common_tags
 }
 
-# Managed Identity
 module "identity" {
   source = "./modules/identity"
   
@@ -47,7 +41,6 @@ module "identity" {
   tags                = local.common_tags
 }
 
-# Database
 module "database" {
   source = "./modules/database"
   
@@ -71,7 +64,6 @@ module "database" {
   depends_on = [module.networking]
 }
 
-# Web App
 module "web_app" {
   source = "./modules/web-app"
   
@@ -92,7 +84,6 @@ module "web_app" {
   depends_on = [module.database, module.identity]
 }
 
-# Role assignments for managed identity to access container registry
 resource "azurerm_role_assignment" "acr_pull" {
   scope                = var.container_registry_id
   role_definition_name = "AcrPull"

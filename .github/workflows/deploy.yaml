@@ -1,0 +1,72 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY_NAME: gielniakcontainerregistry.azurecr.io
+  IMAGE_NAME: fastapi-test
+  TF_DIR: ./terraform
+
+jobs:
+  build:
+    name: Build & Push Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Log in to ACR
+        run: az acr login --name ${{ env.REGISTRY_NAME }}
+
+      - name: Set image tag
+        id: set-tag
+        run: echo "image-tag=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+
+      - name: Build and push image
+        run: |
+          ls
+          cd backend
+          docker build -t ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }} .
+          docker push ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }}
+    outputs:
+      image-tag: ${{ steps.set-tag.outputs.image-tag }}
+
+  deploy-dev:
+    needs: build
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: dev
+      image_tag: ${{ needs.build.outputs.image-tag }}
+      registry_name: ${{ env.REGISTRY_NAME }}
+      image_name: ${{ env.IMAGE_NAME }}
+      tf_dir: ${{ env.TF_DIR }}
+
+  deploy-staging:
+    needs: [build, deploy-dev]
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: staging
+      image_tag: ${{ needs.build.outputs.image-tag }}
+      registry_name: ${{ env.REGISTRY_NAME }}
+      image_name: ${{ env.IMAGE_NAME }}
+      tf_dir: ${{ env.TF_DIR }}
+
+  deploy-prod:
+    needs: [build, deploy-staging]
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: prod
+      image_tag: ${{ needs.build.outputs.image-tag }}
+      registry_name: ${{ env.REGISTRY_NAME }}
+      image_name: ${{ env.IMAGE_NAME }}
+      tf_dir: ${{ env.TF_DIR }}
+  
