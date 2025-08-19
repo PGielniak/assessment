@@ -35,8 +35,8 @@ jobs:
         run: |
           ls
           cd backend
-          docker build -t ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }} .
-          docker push ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }}
+          docker build -t ${{ vars.REGISTRY_NAME }}/${{ vars.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }} .
+          docker push ${{ vars.REGISTRY_NAME }}/${{ vars.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }}
     outputs:
       image-tag: ${{ steps.set-tag.outputs.image-tag }}
 
@@ -46,9 +46,9 @@ jobs:
     with:
       environment: dev
       image_tag: ${{ needs.build.outputs.image-tag }}
-      registry_name: ${{ env.REGISTRY_NAME }}
-      image_name: ${{ env.IMAGE_NAME }}
-      tf_dir: ${{ env.TF_DIR }}
+      registry_name: ${{ vars.REGISTRY_NAME }}
+      image_name: ${{ vars.IMAGE_NAME }}
+      tf_dir: ${{ vars.TF_DIR }}
 
   deploy-staging:
     needs: [build, deploy-dev]
