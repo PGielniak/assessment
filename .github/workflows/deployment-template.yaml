@@ -48,5 +48,6 @@ jobs:
           tofu init -backend-config="./environments/${{ inputs.environment }}/backend.tfbackend" -input=false
 
           tofu apply -var-file="./environments/${{ inputs.environment }}/terraform.tfvars" -auto-approve -input=false \
-            -var "docker_image=${{ inputs.registry_name }}/${{ inputs.image_name }}" \
+            -var "container_registry_login_server=${{ inputs.registry_name }}" \
+            -var "docker_image=${{ inputs.image_name }}" \
             -var "docker_tag=${{ inputs.image_tag }}"

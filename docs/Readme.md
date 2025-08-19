@@ -158,7 +158,7 @@ NOTE: The application ensures the db and tables are created if not existing - so
 
 ```bash
 
-docker run -e DATABASE_URL=<your_database_url> -p 8000:8000 fastapi-test:latest
+docker run -e DATABASE_URL='postgresql+asyncpg://postgres:8Ancp4NiYAo#%!@gielniak-postgresql.postgres.database.azure.com' -p 8000:8000 fastapi-test:latest
 ```
 
 The container will have port 8000 mapped to your local port 8000 so you can test the application by calling the 'test-database-connection' endpoint

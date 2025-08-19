@@ -140,19 +140,6 @@ variable "app_settings" {
   default     = {}
 }
 
-# Container Registry variables
-variable "container_registry_sku" {
-  description = "Container Registry SKU"
-  type        = string
-  default     = "Basic"
-}
-
-variable "container_registry_admin_enabled" {
-  description = "Enable admin user for Container Registry"
-  type        = bool
-  default     = false
-}
-
 variable "container_registry_login_server" {
   description = "Container Registry login server"
   type        = string
