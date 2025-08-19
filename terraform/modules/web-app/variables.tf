@@ -31,7 +31,7 @@ variable "docker_image" {
 variable "docker_tag" {
   description = "Docker tag for the web app"
   type        = string
-  default     = "latest"
+  default     = ""
 }
 
 variable "container_registry_login_server" {
