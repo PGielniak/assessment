@@ -24,8 +24,11 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Check variables
+        run: echo ${{ vars.REGISTRY_NAME }} ${{ vars.IMAGE_NAME }} ${{ vars.TF_DIR }}
+
       - name: Log in to ACR
-        run: az acr login --name ${{ env.REGISTRY_NAME }}
+        run: az acr login --name ${{ vars.REGISTRY_NAME }}
 
       - name: Set image tag
         id: set-tag
@@ -56,9 +59,9 @@ jobs:
     with:
       environment: staging
       image_tag: ${{ needs.build.outputs.image-tag }}
-      registry_name: ${{ env.REGISTRY_NAME }}
-      image_name: ${{ env.IMAGE_NAME }}
-      tf_dir: ${{ env.TF_DIR }}
+      registry_name: ${{ vars.REGISTRY_NAME }}
+      image_name: ${{ vars.IMAGE_NAME }}
+      tf_dir: ${{ vars.TF_DIR }}
 
   deploy-prod:
     needs: [build, deploy-staging]
