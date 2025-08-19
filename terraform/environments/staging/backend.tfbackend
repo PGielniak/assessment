@@ -1,0 +1,4 @@
+resource_group_name  = "gielniak-shared"
+storage_account_name = "gielniak1storage"
+container_name       = "tfstate"
+key                  = "staging/terraform.tfstate"
