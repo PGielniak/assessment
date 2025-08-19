@@ -54,7 +54,7 @@ jobs:
 
           echo "HOSTNAME=$(tofu output -raw webapp_url)" >> $GITHUB_ENV
 
-          sleep 120 # sleeping to make sure the new version will be booted
+          sleep 120 # sleeping to make sure the new version will be booted, normally we would deploy to slots and wait a bit for swap
 
       - name: Run Python API tests
         env:

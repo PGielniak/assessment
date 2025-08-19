@@ -9,7 +9,7 @@ resource "azurerm_postgresql_flexible_server" "main" {
   administrator_login    = var.admin_login
   administrator_password = var.admin_password
   zone                   = "3"
-  
+  public_network_access_enabled = true
   storage_mb   = var.storage_mb
   storage_tier = "P4"
   
@@ -64,7 +64,7 @@ resource "azurerm_postgresql_flexible_server_database" "databases" {
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "allowed_ips" {
-  for_each = var.enable_private_endpoint ? {} : { for idx, ip_range in var.allowed_ip_ranges : idx => ip_range }
+  for_each = { for idx, ip_range in var.allowed_ip_ranges : idx => ip_range }
   
   name             = "AllowedIP-${each.key}"
   server_id        = azurerm_postgresql_flexible_server.main.id

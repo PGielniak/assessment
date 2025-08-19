@@ -189,18 +189,18 @@ The terraform folder consists of the Infrastructure Definition files in the Terr
 
 The root of this folder contains the following files
 
-- main.tf
-- outputs.tf
-- providers.tf
-- variables.tf
-- versions.tf
+- main.tf - used to call all other modules
+- outputs.tf - specifies output values to be retrieved after applying the configuration
+- providers.tf - in our case we specify Azure RM there
+- variables.tf - example or default variables - later overridden in environments folders
+- versions.tf - sets the required versions for compatibility - also defining empty backend later overridden in environment folder
 
 The resources deployed by the main terraform file are defined in the files in the /modules folder. These are
 
-- database
-- identity
-- networking
-- web-app
+- database - provision PostgreSQL , private endpoint, VNET integration
+- identity - managed identity needed by WebApp to authorize to ACR and pull image
+- networking - VNET, Subnet for WebApp and for Database Private Endpoint, Private DNS and its vnet link
+- web-app - App Service Plan, Web App with its configuration
 
 Also - environment specific variables and references to different tfstate files are set up in the folders in the 'environments' directory.
 
@@ -276,6 +276,24 @@ Situation: You are browsing the current application in the version 1.0.2
 You just introduced a major change and want to upgrade to a newer version - 2.0.0
 
 Your major change - changing the version!
+
 ![](img/Screenshot_2.png)
 
 After that you don't care about pull requests and branch policies and commit your change to master (but in real life scenario you'd obviously go through the whole process)
+
+After push to master you see that the GitHub Actions Workflow Started immediately and started building your new code
+
+![](img/Screenshot_3.png)
+
+
+After a while you go to review the logs of the pipeline and see that the version deployed has already changed
+
+![](img/Screenshot_4.png)
+
+You verify it in the UI
+
+![](img/Screenshot_5.png)
+
+
+Normally you would implement approvals or some other deployment gates but in our case we're good to go straight to PROD!!!
+
