@@ -30,7 +30,7 @@ subnet_configs = {
 }
 
 # Database
-postgresql_version      = "17"
+postgresql_version      = "16"
 postgresql_sku_name    = "B_Standard_B2s"
 postgresql_storage_mb  = 32768
 postgresql_admin_login = "postgres"
