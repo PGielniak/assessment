@@ -52,6 +52,7 @@ if resp.status_code != 200:
     sys.exit(1)
 try:
     db_status = resp.json().get("db_connection")
+    version = resp.json().get("version")
 except Exception as e:
     print(f"Failed to parse db connection response: {e}")
     sys.exit(1)
@@ -59,4 +60,4 @@ if db_status != "healthy":
     print(f"DB connection is not healthy: {db_status}")
     sys.exit(1)
 
-print("All tests passed and DB connection is healthy.")
+print(f"All tests passed and DB connection is healthy. Version {version}")

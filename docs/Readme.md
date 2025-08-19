@@ -275,3 +275,7 @@ Situation: You are browsing the current application in the version 1.0.2
 
 You just introduced a major change and want to upgrade to a newer version - 2.0.0
 
+Your major change - changing the version!
+![](img/Screenshot_2.png)
+
+After that you don't care about pull requests and branch policies and commit your change to master (but in real life scenario you'd obviously go through the whole process)
