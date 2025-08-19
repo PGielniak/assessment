@@ -71,7 +71,8 @@ module "web_app" {
   location                 = azurerm_resource_group.main.location
   resource_group_name      = azurerm_resource_group.main.name
   app_service_sku          = var.app_service_sku
-  docker_image             = "${var.docker_image}:${var.docker_tag}"
+  docker_image             = "${var.docker_image}"
+  docker_tag               = "${var.docker_tag}"
   app_settings             = merge(var.app_settings, {
     WEBSITES_ENABLE_APP_SERVICE_STORAGE = "false"
     DATABASE_URL = "postgresql://${var.postgresql_admin_login}:${var.postgresql_admin_password != null ? var.postgresql_admin_password : random_password.postgresql_admin_password[0].result}@${module.database.fqdn}:5432/${var.postgresql_databases[0]}"
