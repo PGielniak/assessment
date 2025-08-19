@@ -106,6 +106,6 @@ async def health_check(
     try:
         is_connected = await data_service.test_db_connection(db)
         return {"db_connection": "healthy" if is_connected else "unhealthy",
-                "version": "1.0.0"}
+                "version": "1.0.1"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
