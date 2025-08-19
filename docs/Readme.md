@@ -297,3 +297,26 @@ You verify it in the UI
 
 Normally you would implement approvals or some other deployment gates but in our case we're good to go straight to PROD!!!
 
+![](img/Screenshot_6.png)
+
+
+# Resources overview
+
+
+There is one shared resource group with storage account for tfstate and container registry
+The code is deployed to 3 other resources groups - dev, staging, prod
+
+![](img/Screenshot_7.png)
+
+Here are the deployed resources
+
+![](img/Screenshot_8.png)
+
+WebApp is integrated with VNET only on outbound - to talk privately to the database. But leaving it exposed for inbound is only for simplification. Normally I would use Azure Front Door or Application  Gateway to secure traffic to the WebApp
+
+![](img/Screenshot_9.png)
+
+Communication with the database is done via Private DNS record
+
+
+![](img/Screenshot_10.png)
