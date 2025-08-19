@@ -9,7 +9,6 @@ provider "azurerm" {
     }
   }
   use_cli = true
-  # Configure resource provider registration
   resource_provider_registrations = "core"
   resource_providers_to_register = [
     "Microsoft.ContainerRegistry",

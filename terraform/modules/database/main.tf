@@ -33,7 +33,6 @@ resource "azurerm_postgresql_flexible_server" "main" {
   }
 }
 
-# Private Endpoint for PostgreSQL (if enabled)
 resource "azurerm_private_endpoint" "postgresql" {
   count               = var.enable_private_endpoint ? 1 : 0
   name                = "${var.name_prefix}-pgsql-private-endpoint"
@@ -56,7 +55,6 @@ resource "azurerm_private_endpoint" "postgresql" {
   tags = var.tags
 }
 
-# PostgreSQL Databases
 resource "azurerm_postgresql_flexible_server_database" "databases" {
   for_each  = toset(var.databases)
   name      = each.value
@@ -65,7 +63,6 @@ resource "azurerm_postgresql_flexible_server_database" "databases" {
   charset   = "UTF8"
 }
 
-# PostgreSQL Firewall Rules (only if not using private endpoint)
 resource "azurerm_postgresql_flexible_server_firewall_rule" "allowed_ips" {
   for_each = var.enable_private_endpoint ? {} : { for idx, ip_range in var.allowed_ip_ranges : idx => ip_range }
   
@@ -75,7 +72,6 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "allowed_ips" {
   end_ip_address   = split("/", each.value)[0]
 }
 
-# PostgreSQL Configuration (key configurations from ARM template)
 resource "azurerm_postgresql_flexible_server_configuration" "configs" {
   for_each = {
     shared_preload_libraries = "pg_cron,pg_stat_statements"

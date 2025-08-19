@@ -65,6 +65,7 @@ My assumptions for the project are:
 - Application is a Python, FastAPI application
 - Storage Account for tfstate and Azure Container Registry are shared resources across dev, staging and prod and they are deployed manually upfront
 - Storage Account and Container registry are deployed with public access enabled for simplification
+- For simplicity the Service Principal used in Github Action is using Secret instead of a Federated Credential and has a Contributor role over the subscription scope and Role Based Access Administrator
 
 # Application (backend folder)
 

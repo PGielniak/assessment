@@ -13,16 +13,12 @@ load_dotenv()
 
 @app.on_event("startup")
 async def startup_event():
-    """
-    Initialize database and tables at app startup.
-    """
     try:
-        # Get db session + data service
         async for db in get_db():
             data_service = get_data_service()
             db_url = os.getenv("DATABASE_URL")
             await initialize_db(db_url)
-            break  # stop after first yielded session
+            break
         print("Database initialized successfully.")
     except Exception as e:
         print(f"Database initialization failed: {e}")

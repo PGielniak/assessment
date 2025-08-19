@@ -1,4 +1,4 @@
-# Virtual Network
+
 resource "azurerm_virtual_network" "main" {
   name                = "${var.name_prefix}-vnet"
   address_space       = var.vnet_address_space
@@ -7,7 +7,6 @@ resource "azurerm_virtual_network" "main" {
   tags                = var.tags
 }
 
-# Subnets
 resource "azurerm_subnet" "subnets" {
   for_each = var.subnet_configs
   
@@ -27,14 +26,12 @@ resource "azurerm_subnet" "subnets" {
   }
 }
 
-# Private DNS Zone for PostgreSQL
 resource "azurerm_private_dns_zone" "postgresql" {
   name                = "privatelink.postgres.database.azure.com"
   resource_group_name = var.resource_group_name
   tags                = var.tags
 }
 
-# Link Private DNS Zone to Virtual Network
 resource "azurerm_private_dns_zone_virtual_network_link" "postgresql" {
   name                  = "${var.name_prefix}-postgresql-dns-link"
   resource_group_name   = var.resource_group_name

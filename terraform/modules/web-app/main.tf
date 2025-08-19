@@ -9,7 +9,6 @@ resource "azurerm_service_plan" "main" {
   tags = var.tags
 }
 
-# Linux Web App
 resource "azurerm_linux_web_app" "main" {
   name                = "${var.name_prefix}-webapp"
   resource_group_name = var.resource_group_name

@@ -1,0 +1,43 @@
+name: Deploy with OpenTofu
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      image_tag:
+        required: true
+        type: string
+      registry_name:
+        required: true
+        type: string
+      image_name:
+        required: true
+        type: string
+      tf_dir:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: 1.8.3
+
+      - name: Init & Apply
+        run: |
+          cd ${{ inputs.tf_dir }}/environments/${{ inputs.environment }}
+          tofu init -backend-config="./backend.tfbackend" -input=false
+          tofu apply -var-file="./terraform.tfvars" -auto-approve -input=false \
+            -var "docker_image=${{ inputs.registry_name }}/${{ inputs.image_name }}" \
+            -var "docker_tag=${{ inputs.image_tag }}"
