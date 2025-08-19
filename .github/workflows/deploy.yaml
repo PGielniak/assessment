@@ -5,6 +5,11 @@ on:
     branches:
       - master
 
+env:
+  REGISTRY_NAME: gielniakcontainerregistry.azurecr.io
+  IMAGE_NAME: fastapi-test
+  TF_DIR: ./terraform
+
 jobs:
   build:
     name: Build & Push Docker Image
