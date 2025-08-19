@@ -52,7 +52,7 @@ jobs:
             -var "docker_image=${{ inputs.image_name }}" \
             -var "docker_tag=${{ inputs.image_tag }}"
 
-          echo "HOSTNAME=$(tofu output -raw default_site_hostname)" >> $GITHUB_ENV
+          echo "HOSTNAME=$(tofu output -raw webapp_url)" >> $GITHUB_ENV
 
       - name: Run Python API tests
         env:

@@ -269,4 +269,9 @@ Create a GitLab CI/CD or GitHub Actions pipeline to automate the following:
 
 # DEMO
 
-Situation: You are
+Situation: You are browsing the current application in the version 1.0.2
+
+![](img/Screenshot_1.png)
+
+You just introduced a major change and want to upgrade to a newer version - 2.0.0
+
