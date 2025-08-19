@@ -5,7 +5,7 @@
 environment         = "dev"
 location           = "North Europe"
 project_name       = "gielniak"
-resource_group_name = "gielniak-development2"
+resource_group_name = "gielniak-dev"
 
 # Tags
 tags = {
