@@ -36,8 +36,8 @@ jobs:
 
       - name: Init & Apply
         run: |
-          cd ${{ inputs.tf_dir }}/environments/${{ inputs.environment }}
-          tofu init -backend-config="./backend.tfbackend" -input=false
-          tofu apply -var-file="./terraform.tfvars" -auto-approve -input=false \
+          cd ${{ inputs.tf_dir }}
+          tofu init -backend-config="./environments/${{ inputs.environment }}/backend.tfbackend" -input=false
+          tofu apply -var-file="./environments/${{ inputs.environment }}/terraform.tfvars" -auto-approve -input=false \
             -var "docker_image=${{ inputs.registry_name }}/${{ inputs.image_name }}" \
             -var "docker_tag=${{ inputs.image_tag }}"
