@@ -34,6 +34,11 @@ variable "docker_tag" {
   default     = "latest"
 }
 
+variable "container_registry_login_server" {
+  description = "Container Registry login server"
+  type        = string
+  default     = "gielniakcontainerregistry.azurecr.io"
+}
 variable "app_settings" {
   description = "App settings for the web app"
   type        = map(string)

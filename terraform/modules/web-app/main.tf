@@ -30,7 +30,7 @@ resource "azurerm_linux_web_app" "main" {
     
     application_stack {
       docker_image_name   = "${var.docker_image}:${var.docker_tag}"
-      docker_registry_url = "https://${split("/", var.docker_image)[0]}"
+      docker_registry_url = "https://${var.container_registry_login_server}"
     }
     
     minimum_tls_version = "1.2"
