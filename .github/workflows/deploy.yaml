@@ -5,11 +5,6 @@ on:
     branches:
       - master
 
-env:
-  REGISTRY_NAME: gielniakcontainerregistry.azurecr.io
-  IMAGE_NAME: fastapi-test
-  TF_DIR: ./terraform
-
 jobs:
   build:
     name: Build & Push Docker Image
@@ -49,9 +44,9 @@ jobs:
     with:
       environment: dev
       image_tag: ${{ needs.build.outputs.image-tag }}
-      registry_name: ${{ vars.REGISTRY_NAME }}
-      image_name: ${{ vars.IMAGE_NAME }}
-      tf_dir: ${{ vars.TF_DIR }}
+      registry_name: gielniakcontainerregistry.azurecr.io
+      image_name: fastapi-test
+      tf_dir: ./terraform
 
   deploy-staging:
     needs: [build, deploy-dev]
@@ -59,9 +54,9 @@ jobs:
     with:
       environment: staging
       image_tag: ${{ needs.build.outputs.image-tag }}
-      registry_name: ${{ vars.REGISTRY_NAME }}
-      image_name: ${{ vars.IMAGE_NAME }}
-      tf_dir: ${{ vars.TF_DIR }}
+      registry_name: gielniakcontainerregistry.azurecr.io
+      image_name: fastapi-test
+      tf_dir: ./terraform
 
   deploy-prod:
     needs: [build, deploy-staging]
@@ -69,8 +64,7 @@ jobs:
     with:
       environment: prod
       image_tag: ${{ needs.build.outputs.image-tag }}
-      registry_name: ${{ vars.REGISTRY_NAME }}
-      image_name: ${{ vars.IMAGE_NAME }}
-      tf_dir: ${{ vars.TF_DIR }}
+      registry_name: gielniakcontainerregistry.azurecr.io
+      image_name: fastapi-test
+      tf_dir: ./terraform
   
-# ad dcomment
