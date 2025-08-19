@@ -42,7 +42,13 @@ jobs:
       - name: Init & Apply
         run: |
           cd ${{ inputs.tf_dir }}
-          tofu init -backend-config="./environments/${{ inputs.environment }}/backend.tfbackend" -input=false
+          tofu init \
+            -backend-config="client_id=${{ secrets.AZURE_CLIENT_ID }}" \
+            -backend-config="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" \
+            -backend-config="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+            -backend-config="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+            -backend-config="./environments/${{ inputs.environment }}/backend.tfbackend" -input=false
+
           tofu apply -var-file="./environments/${{ inputs.environment }}/terraform.tfvars" -auto-approve -input=false \
             -var "docker_image=${{ inputs.registry_name }}/${{ inputs.image_name }}" \
             -var "docker_tag=${{ inputs.image_tag }}"

@@ -1,3 +1,6 @@
+
+
+
 # Environment Configuration
 environment         = "dev"
 location           = "North Europe"
