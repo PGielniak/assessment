@@ -22,3 +22,7 @@ output "private_endpoint_id" {
   description = "ID of the private endpoint"
   value       = var.enable_private_endpoint ? azurerm_private_endpoint.postgresql[0].id : null
 }
+
+output "private_dns_name" {
+  value = "${azurerm_postgresql_flexible_server.main.name}.privatelink.postgres.database.azure.com"
+}
