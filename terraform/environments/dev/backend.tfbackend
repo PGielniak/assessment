@@ -2,3 +2,4 @@ resource_group_name  = "gielniak-shared"
 storage_account_name = "gielniak1storage"
 container_name       = "tfstate"
 key                  = "dev/terraform.tfstate"
+use_azure_cli = false
