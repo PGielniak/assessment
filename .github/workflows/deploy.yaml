@@ -69,7 +69,7 @@ jobs:
     with:
       environment: prod
       image_tag: ${{ needs.build.outputs.image-tag }}
-      registry_name: ${{ env.REGISTRY_NAME }}
-      image_name: ${{ env.IMAGE_NAME }}
-      tf_dir: ${{ env.TF_DIR }}
+      registry_name: ${{ vars.REGISTRY_NAME }}
+      image_name: ${{ vars.IMAGE_NAME }}
+      tf_dir: ${{ vars.TF_DIR }}
   
