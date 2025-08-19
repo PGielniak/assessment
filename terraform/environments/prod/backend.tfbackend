@@ -2,10 +2,3 @@ resource_group_name  = "gielniak-shared"
 storage_account_name = "gielniak1storage"
 container_name       = "tfstate"
 key                  = "prod/terraform.tfstate"
-
-
-use_azure_cli        = false
-client_id            = var.client_id
-client_secret        = var.client_secret
-tenant_id            = var.tenant_id
-subscription_id      = var.subscription_id
