@@ -25,10 +25,10 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Check variables
-        run: echo ${{ vars.REGISTRY_NAME }} ${{ vars.IMAGE_NAME }} ${{ vars.TF_DIR }}
+        run: echo ${{ env.REGISTRY_NAME }} ${{ env.IMAGE_NAME }} ${{ env.TF_DIR }}
 
       - name: Log in to ACR
-        run: az acr login --name ${{ vars.REGISTRY_NAME }}
+        run: az acr login --name ${{ env.REGISTRY_NAME }}
 
       - name: Set image tag
         id: set-tag
@@ -38,8 +38,8 @@ jobs:
         run: |
           ls
           cd backend
-          docker build -t ${{ vars.REGISTRY_NAME }}/${{ vars.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }} .
-          docker push ${{ vars.REGISTRY_NAME }}/${{ vars.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }}
+          docker build -t ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }} .
+          docker push ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ steps.set-tag.outputs.image-tag }}
     outputs:
       image-tag: ${{ steps.set-tag.outputs.image-tag }}
 
