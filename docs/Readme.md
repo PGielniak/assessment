@@ -252,6 +252,7 @@ In the .github/workflows directory there is a GitHub Actions pipeline that consi
 - The main file: 'deploy.yaml' - triggered on push to master branch - its role is to build the docker image and push it to the container registry and then call reusable workflow with deployment template.
 - deployment-template.yaml is a resuable workflow created to avoid duplication of the code while deploying to multiple environments. Its role is to use the generated in the previous step docker tag and apply it to the App Service along with any other changes to the infrastructure, using OpenTofu
 
+- The script in .github/workflows/scripts (test.py) is called at the end of each delpoyment stage to verify the application is running. The test consists of simple API calls.
 
 This part is supposed to satisfy the following requirement
 
@@ -260,12 +261,12 @@ This part is supposed to satisfy the following requirement
 Create a GitLab CI/CD or GitHub Actions pipeline to automate the following:
 
 - Build and push the Docker image to a container registry (Azure Container Registry or Docker Hub).
-
 - Deploy the Terraform infrastructure.
-
 - Deploy the application to Azure App Service.
+- Run some simple tests to verify the application.
 
 
 
 # DEMO
 
+Situation: You are

@@ -58,5 +58,6 @@ jobs:
         env:
           HOSTNAME: ${{ env.HOSTNAME }}
         run: |
+          echo $HOSTNAME
           python3 .github/workflows/scripts/tests.py
 
